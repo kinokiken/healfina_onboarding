@@ -98,7 +98,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                 text="🧘 Meditation Onboarding",
                 web_app=WebAppInfo(
                     url=add_get_params_to_url(
-                        "https://tok-meditation.netlify.app", user_data
+                        "https://tok-meditation.    netlify.app", user_data
                     )
                 ),
             ),
