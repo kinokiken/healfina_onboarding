@@ -10,6 +10,7 @@ export default defineConfig({
           media: {
             type: 'video',
             src: import('./assets/videos/Healfina1.mp4'), 
+            poster: import('./assets/img/healfina therapy 2 var.jpg'), 
             style: 'aspect-ratio: 1024/1024',
           },
           shape: 'rounded',
@@ -26,6 +27,7 @@ export default defineConfig({
           media: {
             type: 'video',
             src: import('./assets/videos/Healfina2.mp4'), 
+            poster: import('./assets/img/treatment compare.jpg'),
             style: 'aspect-ratio: 1280/896'
           },
           shape: 'rounded',
@@ -44,7 +46,7 @@ export default defineConfig({
             src: import('./assets/stickers/StickerFreud.tgs'),
             size: 250,
           },
-          shape: 'square',
+          shape: 'rounded',
           pagination: 'count',
           title: ' Как это может помочь мне?',
           description:
@@ -60,7 +62,7 @@ export default defineConfig({
             src: import('./assets/stickers/duck_love.tgs'),
             size: 250,
           },
-          shape: 'square',
+          shape: 'rounded',
           pagination: 'count',
           title: 'А что ты умеешь?',
           description:
@@ -73,10 +75,12 @@ export default defineConfig({
         {
 
           media: {
-            type: 'image',
-            src: import('./assets/img/healfina and girl2.jpg'), 
+            type: 'video',
+            src: import('./assets/videos/Healfina5.mp4'), 
+            poster: import('./assets/img/healfina and girl2.jpg'), 
+            style: 'aspect-ratio: 908/878',
           },
-          shape: 'square',
+          shape: 'rounded',
           pagination: 'count',
           title: 'Какой у нас план?',
           description:
@@ -113,16 +117,20 @@ export default defineConfig({
         // а это безопасно?
         {
           media: {
-            type: 'image',
-            src: import('./assets/img/healfina photo.jpg'), 
-          
+            type: 'video',
+            src: import('./assets/videos/Healfina6.mp4'), 
+            poster: import('./assets/img/healfina photo.jpg'), 
+            style: 'aspect-ratio: 640/640',
           },
-          shape: 'square',
+          shape: 'rounded',
           pagination: 'count',
           title: 'А это безопасно?',
           description:
             'Все наше общение сохранится в секрете, так что можешь чувствовать себя свободно и делиться со мной всем, что на душе. 🙂 Все данные хранятся в обезличенном виде, поэтому никак нельзя установить связь между тобой и твоими диалогами, можешь быть спокойна 😇 <br><br>Давай попробуем? Для этого нажми кнопку <b>"Начать общение"</b> в меню ниже. 🌟 ',
-          button: 'Давай попробуем!',
+          button: {
+            content: 'Давай попробуем',
+            href: 'https://t.me/Healfina_bot',
+          },
         },
       ],
     },
