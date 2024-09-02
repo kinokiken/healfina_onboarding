@@ -4,9 +4,10 @@
       v-if="loaded"
       ref="videoRef"
       playsinline
-      :controls="false"
+      :controls="true"
       :class="$style.video"
       :poster="loadedPoster"
+      @click="handlePlayPause"
     >
       <source :src="loaded" type="video/mp4" />
       Your browser does not support the video tag.
@@ -14,14 +15,14 @@
 
     <div v-if="!videoPlaying" :class="$style.tapAnimation" />
 
-    <button v-if="!videoPlaying" :class="$style.fallback" @click="forceRefresh">
+    <button v-if="!videoPlaying" :class="$style.fallback" @click="handlePlayPause">
       Video not playing?<br />Tap here
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, ref, toRefs, watch, onUnmounted, onMounted } from 'vue';
+import { inject, ref, toRefs, watch, onMounted, onUnmounted } from 'vue';
 import { WAS_INTERACTION_TOKEN } from '@tok/generation/tokens';
 import { noop } from '@tok/ui/utility/noop';
 
@@ -36,61 +37,28 @@ const loaded = useLoadedImage(src);
 const loadedPoster = useLoadedImage(poster);
 
 const videoRef = ref<HTMLVideoElement | null>(null);
-const wasInteraction = inject(WAS_INTERACTION_TOKEN, ref(false));
 const videoPlaying = ref(false);
 
-const forceRefreshEvents = ref(NaN);
-
-const forceRefresh = () => {
-  forceRefreshEvents.value = Date.now();
-};
-
-const onVideoPlay = () => {
-  videoPlaying.value = true;
-};
-
-// Используем IntersectionObserver для отслеживания видимости видео
-const observer = ref<IntersectionObserver | null>(null);
-
-onMounted(() => {
+const handlePlayPause = () => {
   if (videoRef.value) {
-    observer.value = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        videoRef.value?.play().catch(noop);
-      } else {
-        videoRef.value?.pause();
-        videoRef.value.currentTime = 0;
-      }
-    });
-
-    observer.value.observe(videoRef.value);
+    if (videoPlaying.value) {
+      videoRef.value.pause();
+      videoPlaying.value = false;
+    } else {
+      videoRef.value.play().catch(noop);
+      videoPlaying.value = true;
+    }
   }
-});
+};
 
 onUnmounted(() => {
-  observer.value?.disconnect();
-
   if (videoRef.value) {
     videoRef.value.pause();
     videoRef.value.currentTime = 0;
+    videoPlaying.value = false;
   }
 });
-
-watch(
-  [videoRef, loaded, wasInteraction, forceRefreshEvents],
-  ([_video], _, onCleanup) => {
-    onCleanup(() => {
-      _video?.removeEventListener('play', onVideoPlay);
-    });
-
-    if (_video) {
-      _video.addEventListener('play', onVideoPlay);
-    }
-  },
-  { immediate: true }
-);
 </script>
-
 
 <style lang="scss" module>
 @import '@tok/ui/styles/local.scss';
