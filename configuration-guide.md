@@ -362,7 +362,7 @@ export default defineConfig({
           text: 'item 2',
         },
       ],
-      button: 'Button',
+      button: null,
     },
   ],
 });
