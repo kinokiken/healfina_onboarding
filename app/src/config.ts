@@ -10,7 +10,7 @@ export default defineConfig({
           media: {
             type: 'video',
             src: import('./assets/videos/Healfina1.mp4'), 
-            style: 'aspect-ratio: 780/936',
+            style: 'aspect-ratio: 1024/1024',
           },
           shape: 'rounded',
           pagination: 'count',
@@ -24,8 +24,9 @@ export default defineConfig({
         // что такое кпт
         {
           media: {
-            type: 'image',
-            src: import('./assets/img/treatment compare.jpg'), 
+            type: 'video',
+            src: import('./assets/videos/Healfina2.mp4'), 
+            style: 'aspect-ratio: 1280/896'
           },
           shape: 'rounded',
           pagination: 'count',
