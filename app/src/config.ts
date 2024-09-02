@@ -10,6 +10,7 @@ export default defineConfig({
           media: {
             type: 'video',
             src: import('./assets/videos/Healfina1.mp4'), 
+            style: 'aspect-ratio: 780/936',
           },
           shape: 'rounded',
           pagination: 'count',
