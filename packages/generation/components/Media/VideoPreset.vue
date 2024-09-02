@@ -21,9 +21,9 @@
 </template>
 
 <script setup lang="ts">
+import { inject, ref, toRefs, watch, onUnmounted, onMounted } from 'vue';
 import { WAS_INTERACTION_TOKEN } from '@tok/generation/tokens';
 import { noop } from '@tok/ui/utility/noop';
-import { inject, ref, toRefs, watch } from 'vue';
 
 import { VideoPresetProps } from './Media.preset.props';
 import { useLoadedImage } from './useLoadedImage';
@@ -37,12 +37,9 @@ const loadedPoster = useLoadedImage(poster);
 
 const videoRef = ref<HTMLVideoElement | null>(null);
 const wasInteraction = inject(WAS_INTERACTION_TOKEN, ref(false));
-
-// Required for iOS devices to initiate the first interaction with the page;
-// otherwise, the video will not play automatically
-// Note: MainButton is located outside of the miniapp, so the browser doesn't register the first interaction event
-const forceRefreshEvents = ref(NaN);
 const videoPlaying = ref(false);
+
+const forceRefreshEvents = ref(NaN);
 
 const forceRefresh = () => {
   forceRefreshEvents.value = Date.now();
@@ -51,6 +48,33 @@ const forceRefresh = () => {
 const onVideoPlay = () => {
   videoPlaying.value = true;
 };
+
+// Используем IntersectionObserver для отслеживания видимости видео
+const observer = ref<IntersectionObserver | null>(null);
+
+onMounted(() => {
+  if (videoRef.value) {
+    observer.value = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        videoRef.value?.play().catch(noop);
+      } else {
+        videoRef.value?.pause();
+        videoRef.value.currentTime = 0;
+      }
+    });
+
+    observer.value.observe(videoRef.value);
+  }
+});
+
+onUnmounted(() => {
+  observer.value?.disconnect();
+
+  if (videoRef.value) {
+    videoRef.value.pause();
+    videoRef.value.currentTime = 0;
+  }
+});
 
 watch(
   [videoRef, loaded, wasInteraction, forceRefreshEvents],
@@ -61,13 +85,12 @@ watch(
 
     if (_video) {
       _video.addEventListener('play', onVideoPlay);
-
-      _video.play().catch(noop);
     }
   },
   { immediate: true }
 );
 </script>
+
 
 <style lang="scss" module>
 @import '@tok/ui/styles/local.scss';
