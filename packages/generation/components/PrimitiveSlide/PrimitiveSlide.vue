@@ -64,7 +64,7 @@ const buttonText = computed(() => {
   return typeof value === 'string' ? value : value ? value.content : '';
 });
 
-const buttonProps = computed<{ to?: RouteRecordRaw }>(() => {
+const buttonProps = computed(() => {
   const value = button.value;
 
   return typeof value === 'string' ? {} : value || {};
@@ -87,11 +87,18 @@ const onClick = () => {
   const _props = buttonProps.value;
 
   if (_props.to) {
+    // Если указан маршрут Vue Router, переходим на него
     router.push(_props.to);
-
     return;
   }
 
+  if (_props.href) {
+    // Если указан href, осуществляем переход по внешней ссылке
+    window.location.href = _props.href;
+    return;
+  }
+
+  // В остальных случаях, вызываем событие onClick
   emit('onClick');
 };
 </script>
