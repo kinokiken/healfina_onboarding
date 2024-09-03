@@ -127,7 +127,63 @@ export default defineConfig({
           title: 'А это безопасно?',
           description:
             'Все наше общение сохранится в секрете, так что можешь чувствовать себя свободно и делиться со мной всем, что на душе. 🙂 Все данные хранятся в обезличенном виде, поэтому никак нельзя установить связь между тобой и твоими диалогами, можешь быть спокойна 😇 <br><br>Давай попробуем? Для этого нажми кнопку <b>"Начать общение"</b> в меню ниже. 🌟 ',
-          button: '',
+          button: {
+            content: 'Давай начнем!',
+            to: '/paywall',
+          },
+        },
+      ],
+    },
+    {
+      extends: 'paywall',
+      path: '/paywall',
+      media: {
+        type: 'sticker',
+        src: import('./assets/stickers/duck_xray.tgs'),
+        size: 150,
+      },
+      shape: 'square',
+      title: 'Unlock access to all features',
+      list: [
+        'Unlimited traffic',
+        'Any number of devices',
+        'No ads',
+      ],
+      products: [
+        {
+          id: '1_month_subscription',
+          title: '1 month subscription',
+          description: '2$/month',
+          discount: '',
+          price: 2,
+        },
+        {
+          id: '1_year_subscription',
+          title: '1 year subscription',
+          description: '1$/month',
+          discount: 'Discount 50%',
+          price: 12,
+        },
+        {
+          id: 'lifetime_access',
+          title: 'Lifetime access',
+          description: '20$ once',
+          discount: 'Best offer',
+          price: 20,
+        },
+      ],
+      mainButtonText: 'Buy for {price}',
+      popup: {  // popup for payment methods choice
+        type: 'web',
+      },
+      links: [
+        {
+          text: 'Privacy policy',
+          href: 'https://google.com',
+        },
+        {
+          text: 'Terms of use',
+          href: 'https://google.com',
         },
       ],
     },
