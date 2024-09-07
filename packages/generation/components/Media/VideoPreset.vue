@@ -4,7 +4,7 @@
       v-if="loaded"
       ref="videoRef"
       playsinline
-      :controls="true"
+      :controls="false"
       :class="$style.video"
       :poster="loadedPoster"
       @click="handlePlayPause"
@@ -16,8 +16,15 @@
     <div v-if="!videoPlaying" :class="$style.tapAnimation" />
 
     <button v-if="!videoPlaying" :class="$style.fallback" @click="handlePlayPause">
-      Video not playing?<br />Tap here
+      Нажми, чтобы прослушать
     </button>
+
+    <div v-if="videoPlaying" :class="$style.tapAnimation" />
+
+    <button v-if="videoPlaying" :class="$style.fallback" @click="handlePlayPause">
+      ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ  ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+    </button>
+
   </div>
 </template>
 
@@ -38,6 +45,7 @@ const loadedPoster = useLoadedImage(poster);
 
 const videoRef = ref<HTMLVideoElement | null>(null);
 const videoPlaying = ref(false);
+let observer: IntersectionObserver | null = null;
 
 const handlePlayPause = () => {
   if (videoRef.value) {
@@ -51,7 +59,31 @@ const handlePlayPause = () => {
   }
 };
 
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio < 0.5 && videoPlaying.value) {
+          videoRef.value?.pause();
+          videoPlaying.value = false;
+        }
+      });
+    },
+    {
+      threshold: 0.5,
+    }
+  );
+
+  if (videoRef.value) {
+    observer.observe(videoRef.value);
+  }
+});
+
 onUnmounted(() => {
+  if (observer && videoRef.value) {
+    observer.unobserve(videoRef.value);
+  }
+
   if (videoRef.value) {
     videoRef.value.pause();
     videoRef.value.currentTime = 0;
