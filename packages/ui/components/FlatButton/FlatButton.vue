@@ -62,7 +62,7 @@ const props = withDefaults(
   FlatButtonDefaultProps
 );
 
-const { icon, size, iconRight, shape, iconButton, href, to } = toRefs(props);
+const { icon, size, iconRight, shape, iconButton, href, to, closeWindow } = toRefs(props);
 
 const computedShape = computed(() => {
   const _shape = shape.value;
@@ -75,7 +75,7 @@ const computedShape = computed(() => {
 });
 
 const shouldCloseWindow = computed(() => {
-  return !href?.value && !to?.value;
+  return closeWindow?.value && !href?.value && !to?.value;
 });
 
 const closeWindow = () => {
