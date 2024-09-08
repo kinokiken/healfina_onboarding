@@ -33,6 +33,7 @@ import { MainButton } from '@tok/telegram-ui/components/MainButton';
 import { setNativeFocused } from '@tok/ui/dom/focus';
 import { computed, ref, toRefs, watch } from 'vue';
 import { RouteRecordRaw, useRouter } from 'vue-router';
+import { useTelegramSdk } from '@tok/telegram-ui/use/sdk'
 
 import {
   PrimitiveSlideDefaultProps,
@@ -52,6 +53,7 @@ const props = withDefaults(
 const emit = defineEmits<PrimitiveSlideEmits>();
 
 const { button, active } = toRefs(props);
+const tg = useTelegramSdk();
 
 const carousel = useCarousel();
 const router = useRouter();
@@ -95,6 +97,7 @@ const onClick = () => {
   if (_props.href) {
     // Если указан href, осуществляем переход по внешней ссылке
     window.location.href = _props.href;
+    tg.close();
     return;
   }
 
