@@ -96,7 +96,6 @@ const onClick = () => {
 
   if (_props.href) {
     // Если указан href, осуществляем переход по внешней ссылке
-    window.location.href = _props.href;
     tg.close();
     return;
   }
