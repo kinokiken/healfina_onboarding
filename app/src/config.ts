@@ -115,7 +115,7 @@ export default defineConfig({
             ],
             button: {
               to: '/secure',
-              content: 'Вернуться в чат',
+              content: 'А это безопасно?',
               href: 'https://t.me/Helfina_bot',
             }
         },
