@@ -61,7 +61,6 @@ const computedComponent = computed(() => {
 
   if (isLink) {
     close();
-    return 'a';
   }
 
   const isVueLink = !!to?.value;
