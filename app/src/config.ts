@@ -114,13 +114,15 @@ export default defineConfig({
             }
             ],
             button: {
-              content: 'А это безопасно?',
-              href: 'https://t.me/Helfina_bot?start=new_session',
+              to: '/secure',
+              content: 'Вернуться в чат',
+              href: 'https://t.me/Helfina_bot',
             }
         },
 
         // а это безопасно?
         {
+          path: '/secure',
           media: {
             type: 'video',
             src: import('./assets/videos/Healfina6.mp4'), 
