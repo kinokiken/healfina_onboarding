@@ -71,9 +71,7 @@ const computedComponent = computed(() => {
 });
 
 const handleClick = () => {
-  if (href.value) {
     tg.close();
-  }
 };
 </script>
 
