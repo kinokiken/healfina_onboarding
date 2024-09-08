@@ -113,7 +113,10 @@ export default defineConfig({
               text: ' инструменты для самоанализа и отслеживания твоего психологического состояния',
             }
             ],
-            button: 'А это безопасно?',
+            button: {
+              content: 'А это безопасно?',
+              href: 'https://t.me/Helfina_bot?start=new_session',
+            }
         },
 
         // а это безопасно?
