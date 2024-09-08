@@ -10,6 +10,7 @@
     :disabled="disabled"
     :href="href"
     :to="to"
+    @click="handleClick"
   >
     <slot name="icon">
       <svg-icon v-if="icon" :name="icon" :rotate="rotate" :size="iconSize" />
@@ -61,14 +62,21 @@ const computedComponent = computed(() => {
   const isLink = !!href?.value;
 
   if (isLink) {
-    tg.close();
+    return 'a';
   }
 
   const isVueLink = !!to?.value;
 
   return isVueLink ? 'router-link' : 'button';
 });
+
+const handleClick = () => {
+  if (href.value) {
+    tg.close();
+  }
+};
 </script>
+
 
 <style lang="scss" scope>
 @import '@tok/ui/styles/local.scss';
