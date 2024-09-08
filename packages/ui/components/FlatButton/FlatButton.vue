@@ -34,6 +34,7 @@
 import { SvgIcon } from '@tok/ui/components/SvgIcon';
 import { RippleDirective as vRipple } from '@tok/ui/directives/ripple';
 import { computed, toRefs } from 'vue';
+import { useTelegramSdk } from '@tok/telegram-ui/use/sdk';
 
 import { FlatButtonDefaultProps, FlatButtonProps } from './FlatButton.props';
 
@@ -44,7 +45,7 @@ const props = withDefaults(
 
 const { icon, size, iconRight, shape, iconButton, href, to } = toRefs(props);
 
-const emit = defineEmits(['close']);
+const tg = useTelegramSdk();
 
 const computedShape = computed(() => {
   const _shape = shape.value;
@@ -60,7 +61,7 @@ const computedComponent = computed(() => {
   const isLink = !!href?.value;
 
   if (isLink) {
-    close();
+    tg.close();
   }
 
   const isVueLink = !!to?.value;
