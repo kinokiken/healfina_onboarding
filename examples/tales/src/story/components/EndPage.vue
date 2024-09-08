@@ -37,7 +37,7 @@ const back = i18n.useTranslated('_story.back');
 
 const onClick = () => {
   sdk.HapticFeedback.impactOccurred('light');
-
+  sdk.close()
   router.push('/?page=6');
 };
 </script>
