@@ -1,6 +1,7 @@
 <template>
   <component
     v-ripple
+    v-if="!shouldCloseWindow"
     :is="computedComponent"
     class="tok-button"
     :data-appearance="appearance"
@@ -28,6 +29,25 @@
 
     <svg-icon v-if="loading" name="spinner" class="spinner" />
   </component>
+
+  <button v-else @click="closeWindow" class="tok-button">
+    <slot name="icon">
+      <svg-icon v-if="icon" :name="icon" :rotate="rotate" :size="iconSize" />
+    </slot>
+
+    <slot v-if="!iconButton" />
+
+    <slot name="iconRight">
+      <svg-icon
+        v-if="iconRight"
+        :name="iconRight"
+        :rotate="rightRotate"
+        :size="iconSize"
+      />
+    </slot>
+
+    <svg-icon v-if="loading" name="spinner" class="spinner" />
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -54,16 +74,27 @@ const computedShape = computed(() => {
   return iconButton.value ? 'icon' : _shape;
 });
 
+const shouldCloseWindow = computed(() => {
+  return !href?.value && !to?.value;
+});
+
+const closeWindow = () => {
+  window.close();
+};
+
 const computedComponent = computed(() => {
-  const isLink = !!href?.value;
+  if (!shouldCloseWindow.value) {
+    const isLink = !!href?.value;
 
-  if (isLink) {
-    return 'a';
+    if (isLink) {
+      return 'a';
+    }
+
+    const isVueLink = !!to?.value;
+
+    return isVueLink ? 'router-link' : 'button';
   }
-
-  const isVueLink = !!to?.value;
-
-  return isVueLink ? 'router-link' : 'button';
+  return 'button';
 });
 </script>
 
