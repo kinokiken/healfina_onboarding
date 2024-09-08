@@ -49,6 +49,7 @@ const showWebButton = computed(() => {
 
 const onClick = () => {
   emit('onClick');
+  sdk.close();
 };
 
 watch(
