@@ -46,10 +46,6 @@ const { icon, size, iconRight, shape, iconButton, href, to } = toRefs(props);
 
 const emit = defineEmits(['close']);
 
-const close = () => {
-  emit('close');
-};
-
 const computedShape = computed(() => {
   const _shape = shape.value;
 
