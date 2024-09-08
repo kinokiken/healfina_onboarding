@@ -28,7 +28,7 @@ export type _GenerationSlideConfig = {
 
   list?: _GenerationListOptionsConfig;
 
-  button?: string | (Pick<FlatButtonProps, 'href'> & { content: string }) | null | (Pick<FlatButtonProps, 'to'>  & { content: string } & Pick<FlatButtonProps, 'href'>);
+  button?: string | (Pick<FlatButtonProps, 'href'> & { content: string }) | null;
 };
 
 export type _GenerationFormControlConfig = {
