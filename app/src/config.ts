@@ -118,7 +118,6 @@ export default defineConfig({
 
         // а это безопасно?
         {
-          path: '/secure',
           media: {
             type: 'video',
             src: import('./assets/videos/Healfina6.mp4'), 
